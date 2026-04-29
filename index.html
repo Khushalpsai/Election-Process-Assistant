@@ -237,10 +237,20 @@
     <div class="modal-content">
       <h3>Unlock Smart Mode</h3>
       <p>Connect the free Google Gemini API to make VoteWise truly intelligent. It will be able to answer any nuanced or edge-case question about Indian elections.</p>
+      
+      <div class="api-guide">
+        <h4>How to get your free key:</h4>
+        <ol>
+          <li>Click <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> and sign in.</li>
+          <li>Click the blue <strong>Create API key</strong> button.</li>
+          <li>Copy the key and paste it in the box below.</li>
+        </ol>
+      </div>
+
       <div class="modal-input-group">
         <label for="gemini-key">Gemini API Key</label>
         <input type="password" id="gemini-key" placeholder="AIzaSy..." autocomplete="off" />
-        <p class="modal-help">Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>. Saved locally in your browser.</p>
+        <p class="modal-help">Your key is saved locally and never sent to our servers.</p>
       </div>
       <div class="modal-actions">
         <button class="modal-btn secondary" onclick="closeSmartModal()">Cancel</button>
