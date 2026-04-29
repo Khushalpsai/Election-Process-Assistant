@@ -1,58 +1,73 @@
 # 🗳️ VoteWise — India's Election Guide
 
-**VoteWise** is an interactive, AI-powered civic education assistant that helps Indian citizens understand the election process — from voter registration to result declaration — in a simple, conversational, and engaging way.
+**VoteWise** is an interactive civic education assistant that helps Indian citizens understand the election process — from voter registration to result declaration — in a simple, conversational, and engaging way.
+
+🌐 **Live Site:** [https://votewise-1bfc7.web.app](https://votewise-1bfc7.web.app)
 
 ---
 
 ## ✨ Features
 
-### Core
-- **Splash Loading Screen** — Indian flag animation + word-by-word loading text "Welcome to the Largest Democracy of the World" with a progress bar
-- **Persona-based Onboarding** — Choose First-time Voter, Curious Citizen, or Student/Researcher; the assistant adapts its tone accordingly
-- **AI Chat Assistant** — Conversational interface powered by Google Gemini API (with comprehensive built-in fallback responses)
-- **Interactive Election Timeline** — Left sidebar with 6 clickable phases that highlight when the topic is discussed
+### Splash Screen
+- Indian flag animation (saffron, white with Ashoka Chakra, green)
+- Word-by-word loading text: *"Welcome to the Largest Democracy of the World"*
+- Animated progress bar synced to text reveal
+
+### Persona-based Onboarding
+- Choose: 🗳️ First-time Voter, 🏛️ Curious Citizen, or 📋 Student/Researcher
+- Assistant adapts its tone based on selection
+- Persona displayed as plain text in the header (no background)
+
+### Chat Assistant
+- **Built-in Knowledge Engine** — works instantly, offline, zero configuration
+- No API keys or setup needed — anyone can use it
+- Covers 18+ election topics with detailed, accurate responses
+- Follow-up suggestions after every response
+- Contextual quick-action chips that update per topic
 
 ### Sidebar
-- **Election Timeline** — Visual timeline: Registration → Nomination → Campaigning → Voting Day → Counting → Result
-- **Live Election Data** — Real-time election news fetched from Google News RSS (auto-refreshes every 10 minutes)
-- **Did You Know?** — Rotating fact card with Indian election trivia (rotates every 30 seconds)
+- **Election Timeline** — 6 clickable phases: Registration → Nomination → Campaigning → Voting Day → Counting → Result
+- **Live Election Data** — Real-time election news from Google News RSS (auto-refreshes every 10 min, falls back to static ECI data)
+- **Did You Know?** — Rotating facts with **tricolor (saffron/white/green) arrow buttons** for manual navigation
 
-### Chat
-- **Contextual Quick Actions** — Suggestion chips update based on the current election phase being discussed
-- **Follow-up Suggestions** — Every bot response ends with a clickable follow-up question
-- **Phase Detection** — Keywords in messages automatically highlight the corresponding timeline phase
-
-### Other
-- **Share Button** — Web Share API with clipboard fallback
-- **Mobile Responsive** — Fully responsive for phones, tablets, and desktop
-- **Clean Dark UI** — Premium dark mode with minimal, flat design; no unnecessary glows or backgrounds
+### Design
+- Premium dark mode UI (no unnecessary glows or backgrounds)
+- Flat, minimal buttons with hover highlights
+- Indian flag accent colors (Saffron #FF9933, Green #138808)
+- Inter font with clean weight hierarchy
+- Mobile responsive
 
 ---
 
 ## 📚 Topics Covered
 
-| Topic | Description |
+| Topic | Keywords Detected |
 |---|---|
-| Voter ID & EPIC | Registration process, documents needed, Form 6, NVSP portal |
-| Nomination | Candidate eligibility, security deposit, scrutiny process |
-| Campaigning | Model Code of Conduct (MCC), poll silence rules |
-| EVM & VVPAT | How electronic voting machines work, paper audit trail |
-| NOTA | None Of The Above option — what it is and how it works |
-| Voting Day | Step-by-step polling procedure, what to bring |
-| Counting & Results | Vote tallying, FPTP system, result declaration |
-| Election Commission | Role, structure, and powers of the ECI |
+| Voter ID & Registration | register, voter id, epic, form 6, nvsp |
+| Candidate Nomination | nominate, candidate, eligibility, deposit, scrutiny |
+| Campaigning & MCC | campaign, model code, conduct, rally, poll silence |
+| EVM & VVPAT | evm, vvpat, electronic voting machine |
+| NOTA | nota, none of the above |
+| Voting Day Process | voting day, how to vote, step by step |
+| Counting & Results | count, result, winner, majority, tally |
+| Election Commission | eci, election commission |
+| Documents for Voting | document, proof, id card |
+| Polling Stations | booth, polling station, where to vote |
+| Polling Hours | time, hours, open, close |
+| Phone Rules | phone, camera, selfie |
+| Voter Eligibility | age, 18, eligible, qualify |
+| Election Phases | phase, schedule, how many |
+| Postal Ballots & NRI | postal, nri, overseas |
+| Indelible Ink | ink, indelible |
+| Election Symbols | symbol, logo |
+| Independent Candidates | independent, party |
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Edge, Safari)
-- (Optional) A [Google Gemini API key](https://aistudio.google.com/) for live AI responses
-
 ### Run Locally
 ```bash
-# Clone the repository
 git clone https://github.com/Khushalpsai/Election-Process-Assistant.git
 cd Election-Process-Assistant
 
@@ -64,12 +79,27 @@ npx serve .
 ```
 Open **http://localhost:5500** in your browser.
 
-### Connect AI (Optional)
-In `app.js`, find this line and replace with your key:
-```js
-const API_KEY = 'YOUR_GEMINI_API_KEY';
+**No API keys or configuration needed.** The app works fully offline with its built-in knowledge engine.
+
+---
+
+## 🌐 Deployment
+
+### Live URL
+**[https://votewise-1bfc7.web.app](https://votewise-1bfc7.web.app)**
+
+### Hosting
+Deployed on **Firebase Hosting** (Google Cloud) with:
+- Automatic HTTPS
+- Free tier (10 GB storage, 360 MB/day transfer)
+- Global CDN for fast loading
+
+### Continuous Deployment
+GitHub Actions auto-deploy is configured. Every push to `main` triggers an automatic deployment:
 ```
-Without a key, the app uses built-in curated responses for all major topics.
+Edit code → git push → Site updates in ~60 seconds
+```
+Workflow files: `.github/workflows/firebase-hosting-merge.yml`
 
 ---
 
@@ -77,11 +107,12 @@ Without a key, the app uses built-in curated responses for all major topics.
 
 | Technology | Purpose |
 |---|---|
-| HTML5 | Semantic structure |
-| CSS3 | Custom properties, animations, dark theme, responsive |
-| Vanilla JavaScript | Zero-dependency app logic |
-| Google Gemini API | AI chat responses (optional) |
+| HTML5 | Semantic page structure |
+| CSS3 | Dark theme, animations, responsive layout |
+| Vanilla JavaScript | App logic, knowledge engine, DOM management |
 | RSS2JSON API | Live election news feed |
+| Firebase Hosting | Production deployment + CDN |
+| GitHub Actions | Continuous deployment pipeline |
 
 ---
 
@@ -89,19 +120,26 @@ Without a key, the app uses built-in curated responses for all major topics.
 
 ```
 Election-Process-Assistant/
-├── index.html          # Main HTML — splash screen, onboarding, app shell
-├── style.css           # Complete styling — dark theme, animations, responsive
-├── app.js              # All app logic — splash, chat, API, live data, facts
-└── README.md           # This documentation file
+├── index.html                                    # Splash screen, onboarding, app shell
+├── style.css                                     # Dark theme, animations, responsive
+├── app.js                                        # Knowledge engine, chat, live data, facts
+├── 404.html                                      # Firebase 404 page
+├── firebase.json                                 # Firebase hosting config
+├── .firebaserc                                   # Firebase project reference
+├── .github/
+│   └── workflows/
+│       ├── firebase-hosting-merge.yml            # Auto-deploy on push to main
+│       └── firebase-hosting-pull-request.yml     # Preview deploy on PRs
+└── README.md
 ```
 
 ---
 
-## 🏗️ Architecture & Code Guide (for continuing agents)
+## 🏗️ Architecture Guide (for continuing agents)
 
 ### App Flow
 ```
-Splash Screen (3s) → Onboarding (persona selection) → Main App
+Splash Screen (3s) → Onboarding (persona selection) → Main App (chat + sidebar)
 ```
 
 ### Key State (`state` object in app.js)
@@ -109,51 +147,36 @@ Splash Screen (3s) → Onboarding (persona selection) → Main App
 |---|---|---|
 | `persona` | string | `'first-voter'` / `'citizen'` / `'student'` |
 | `activePhase` | string | Currently highlighted timeline phase |
-| `conversationHistory` | array | Chat messages for LLM context (last 8 turns) |
-| `isLoading` | boolean | Whether a message is being processed |
+| `isLoading` | boolean | Whether a response is being generated |
 | `factIndex` | number | Current "Did You Know?" fact index |
 
 ### Key Functions
-| Function | File | Purpose |
-|---|---|---|
-| `runSplashAnimation()` | app.js | Word-by-word text reveal + progress bar |
-| `selectPersona(btn)` | app.js | Handles persona selection, transitions to main app |
-| `sendMessage()` | app.js | Main chat handler — sends to LLM, renders response |
-| `callLLM(msg)` | app.js | Gemini API call with system prompt + persona context |
-| `getFallbackResponse(msg)` | app.js | Built-in responses for all topics (no API needed) |
-| `fetchLiveElectionData()` | app.js | Fetches news via RSS2JSON, renders in sidebar |
-| `detectPhase(text)` | app.js | Keyword-based phase detection for timeline highlighting |
-| `activatePhase(name)` | app.js | Highlights timeline phase + updates suggestion chips |
-| `renderChips(setName)` | app.js | Renders contextual suggestion chips below chat |
-| `formatText(text)` | app.js | Converts markdown-like text to HTML |
+| Function | Purpose |
+|---|---|
+| `runSplashAnimation()` | Word-by-word text reveal + progress bar |
+| `selectPersona(btn)` | Handles persona selection, transitions to main app |
+| `sendMessage()` | Main chat handler — routes to knowledge engine |
+| `getResponse(msg)` | Built-in knowledge engine with keyword matching |
+| `fetchLiveElectionData()` | Fetches news via RSS2JSON, renders in sidebar |
+| `detectPhase(text)` | Keyword-based phase detection for timeline |
+| `activatePhase(name)` | Highlights timeline phase + updates chips |
+| `renderChips(setName)` | Renders contextual suggestion chips |
+| `nextFact()` / `prevFact()` | Tricolor arrow fact navigation |
+| `formatText(text)` | Converts markdown-like text to HTML |
 
-### CSS Architecture
-The stylesheet uses CSS custom properties for theming:
-- `--bg-0` through `--bg-4`: Background depth layers (darkest to lightest)
-- `--saffron`, `--green`: Indian flag accent colors
-- `--text-1` through `--text-4`: Text hierarchy (brightest to dimmest)
-- `--border`, `--border-h`, `--border-accent`: Border variations
-
-### API Integration Points
-1. **Gemini LLM** (`callLLM()`): POST to `generativelanguage.googleapis.com`. System prompt includes persona context. Falls back to `getFallbackResponse()` if key not set.
-2. **RSS2JSON** (`fetchLiveElectionData()`): GET from `api.rss2json.com` with Google News RSS for "india election commission". Falls back to static ECI data cards. Auto-refreshes every 10 minutes.
+### CSS Custom Properties
+| Variable | Purpose |
+|---|---|
+| `--bg-0` to `--bg-4` | Background depth layers (darkest → lightest) |
+| `--saffron`, `--green` | Indian flag accent colors |
+| `--text-1` to `--text-4` | Text hierarchy (brightest → dimmest) |
+| `--border`, `--border-h` | Border variations |
 
 ### Extending the App
-- **Add new topics**: Add keyword arrays in `PHASE_KEYWORDS`, add chip sets in `CHIP_SETS`, add fallback responses in `getFallbackResponse()`.
-- **Change theme**: All colors are CSS custom properties in `:root` — edit `style.css`.
-- **Add new sidebar sections**: Add a `<div class="sidebar-section">` in `index.html`.
-- **Swap LLM provider**: Modify `callLLM()` in `app.js` — it just needs to return a string.
-
----
-
-## 🎨 Design Philosophy
-
-- **Dark Mode**: Deep blacks (#07090F base) with subtle elevation layers
-- **Minimal**: No unnecessary glows, shadows, or glassmorphism effects
-- **Flat Buttons**: Clean, border-only buttons that highlight on hover
-- **Indian Flag Colors**: Saffron (#FF9933) as primary accent, Green (#138808) as secondary
-- **Typography**: Inter font, weight hierarchy from 400–800
-- **Persona Badge**: Plain text in header — no background pill or container
+- **Add topics:** Add keyword arrays in `PHASE_KEYWORDS`, chip sets in `CHIP_SETS`, responses in `getResponse()`
+- **Change theme:** Edit CSS custom properties in `:root`
+- **Add sidebar sections:** Add `<div class="sidebar-section">` in `index.html`
+- **Add AI:** Replace `getResponse()` with an LLM API call in `sendMessage()`
 
 ---
 
