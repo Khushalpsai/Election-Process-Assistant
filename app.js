@@ -91,19 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function runSplashAnimation() {
   const fill = document.getElementById('splash-fill');
-  const totalSteps = 12;     // how many "ticks" to reveal
+  const totalSteps = 16;     // more steps = smoother reveal
   let step = 0;
 
   const interval = setInterval(() => {
     step++;
-    const pct = 100 - (step / totalSteps) * 100;   // inset from right
+    const pct = 100 - (step / totalSteps) * 100;
     fill.style.clipPath = `inset(0 ${pct}% 0 0)`;
 
     if (step >= totalSteps) {
       clearInterval(interval);
-      setTimeout(endSplash, 800);
+      setTimeout(endSplash, 1000);   // longer pause after full reveal
     }
-  }, 280);
+  }, 250);
 }
 
 function endSplash() {

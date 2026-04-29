@@ -69,10 +69,15 @@ html, body {
   z-index: 0;
 }
 
-/* -- Dark overlay on video so text is readable -- */
+/* -- Dark overlay — heavier for premium contrast -- */
 .splash-video-overlay {
   position: absolute; inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.40) 50%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
   z-index: 1;
 }
 
@@ -80,8 +85,8 @@ html, body {
 .splash-text-wrapper {
   position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: center;
-  padding: 0 28px;
-  max-width: 900px;
+  padding: 0 48px;
+  max-width: 1000px;
   width: 100%;
 }
 
@@ -91,50 +96,37 @@ html, body {
   text-align: center;
 }
 
-/* Shell text (dim, always visible) */
+/* Shell text (very faint, always visible — the "empty" loading bar) */
 .splash-char-shell {
   display: block;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(1.6rem, 4vw, 3.2rem);
-  letter-spacing: 2px;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.15);
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 3.2vw, 2.4rem);
+  letter-spacing: 8px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.12);
   text-transform: uppercase;
-  word-spacing: 6px;
+  word-spacing: 10px;
   user-select: none;
 }
 
-/* Fill text (golden gradient, clips left→right to simulate loading bar) */
+/* Fill text (clean champagne-white reveal — the "filled" loading bar) */
 .splash-char-fill {
   position: absolute;
   top: 0; left: 0;
   display: block;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(1.6rem, 4vw, 3.2rem);
-  letter-spacing: 2px;
-  line-height: 1.35;
-  word-spacing: 6px;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 3.2vw, 2.4rem);
+  letter-spacing: 8px;
+  line-height: 1.6;
+  word-spacing: 10px;
   text-transform: uppercase;
   user-select: none;
-  background: linear-gradient(90deg, #FFD700, #FF9933, #FFFFFF, #138808);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  clip-path: inset(0 100% 0 0);          /* start fully clipped */
-  transition: clip-path 0.12s ease-out;
-  animation: splash-gradient-shift 4s ease-in-out infinite;
-  text-shadow: none;
-}
-
-@keyframes splash-gradient-shift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================================
@@ -606,8 +598,8 @@ html, body {
   .chat-input-bar { padding: 8px 12px 12px; }
   .header-tagline { display: none; }
   .message { max-width: 90%; }
-  .splash-text-wrapper { padding: 0 16px; }
-  .splash-char-shell, .splash-char-fill { font-size: clamp(1.1rem, 5vw, 1.6rem); letter-spacing: 1px; }
+  .splash-text-wrapper { padding: 0 20px; }
+  .splash-char-shell, .splash-char-fill { font-size: clamp(0.9rem, 4.5vw, 1.4rem); letter-spacing: 4px; word-spacing: 5px; }
 }
 @media (max-width: 480px) {
   .persona-btn { grid-template-columns: 38px 1fr; }
