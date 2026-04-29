@@ -7,68 +7,25 @@
   <meta name="description" content="VoteWise is an interactive civic education assistant that helps Indian citizens understand the election process — from voter registration to result declaration." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- ====== SPLASH / LOADING SCREEN ====== -->
   <div id="splash-screen" class="splash-screen active">
-    <!-- Indian Flag -->
-    <div class="splash-flag" id="splash-flag">
-      <div class="flag-band saffron"></div>
-      <div class="flag-band white">
-        <div class="ashoka-chakra">
-          <svg viewBox="0 0 100 100" width="40" height="40">
-            <circle cx="50" cy="50" r="46" fill="none" stroke="#0A1F5C" stroke-width="4"/>
-            <circle cx="50" cy="50" r="8" fill="#0A1F5C"/>
-            <g id="spokes" stroke="#0A1F5C" stroke-width="2.5">
-              <line x1="50" y1="4" x2="50" y2="50"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(15 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(30 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(45 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(60 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(75 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(90 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(105 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(120 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(135 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(150 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(165 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(180 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(195 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(210 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(225 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(240 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(255 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(270 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(285 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(300 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(315 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(330 50 50)"/>
-              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(345 50 50)"/>
-            </g>
-          </svg>
-        </div>
+    <!-- Waving Indian Flag Video Background -->
+    <video class="splash-video-bg" id="splash-video" autoplay muted loop playsinline>
+      <source src="https://videos.pexels.com/video-files/13190482/13190482-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+    </video>
+    <div class="splash-video-overlay"></div>
+
+    <!-- Loading text — THE text IS the loading bar -->
+    <div class="splash-text-wrapper" id="splash-text">
+      <div class="splash-text-container">
+        <span class="splash-char-shell" aria-hidden="true">WELCOME TO THE BIGGEST DEMOCRACY IN THE WORLD</span>
+        <span class="splash-char-fill" id="splash-fill">WELCOME TO THE BIGGEST DEMOCRACY IN THE WORLD</span>
       </div>
-      <div class="flag-band green"></div>
-    </div>
-
-    <!-- Loading text — each word acts as a progress segment -->
-    <div class="splash-text" id="splash-text">
-      <span class="splash-word" data-idx="0">Welcome</span>
-      <span class="splash-word" data-idx="1">to</span>
-      <span class="splash-word" data-idx="2">the</span>
-      <span class="splash-word" data-idx="3">Largest</span>
-      <span class="splash-word" data-idx="4">Democracy</span>
-      <span class="splash-word" data-idx="5">of</span>
-      <span class="splash-word" data-idx="6">the</span>
-      <span class="splash-word" data-idx="7">World</span>
-    </div>
-
-    <!-- Progress bar under text -->
-    <div class="splash-bar">
-      <div class="splash-bar-fill" id="splash-bar-fill"></div>
     </div>
   </div>
 

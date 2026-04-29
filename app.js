@@ -90,21 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function runSplashAnimation() {
-  const words = document.querySelectorAll('.splash-word');
-  const bar = document.getElementById('splash-bar-fill');
-  const total = words.length;
-  let i = 0;
+  const fill = document.getElementById('splash-fill');
+  const totalSteps = 12;     // how many "ticks" to reveal
+  let step = 0;
 
   const interval = setInterval(() => {
-    if (i < total) {
-      words[i].classList.add('lit');
-      bar.style.width = `${((i + 1) / total) * 100}%`;
-      i++;
-    } else {
+    step++;
+    const pct = 100 - (step / totalSteps) * 100;   // inset from right
+    fill.style.clipPath = `inset(0 ${pct}% 0 0)`;
+
+    if (step >= totalSteps) {
       clearInterval(interval);
-      setTimeout(endSplash, 600);
+      setTimeout(endSplash, 800);
     }
-  }, 350);
+  }, 280);
 }
 
 function endSplash() {

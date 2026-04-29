@@ -51,60 +51,90 @@ html, body {
    ============================================================ */
 .splash-screen {
   position: fixed; inset: 0; z-index: 2000;
-  background: var(--bg-0);
+  background: #000;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 36px;
   opacity: 0; pointer-events: none;
   transition: opacity 0.6s ease;
+  overflow: hidden;
 }
 .splash-screen.active { opacity: 1; pointer-events: all; }
 .splash-screen.fade-out { opacity: 0; pointer-events: none; }
 
-/* -- Indian Flag -- */
-.splash-flag {
-  display: flex; flex-direction: column;
-  width: 140px; border-radius: 6px; overflow: hidden;
-  opacity: 0; transform: scale(0.8);
-  animation: flag-enter 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+/* -- Fullscreen Waving Flag Video Background -- */
+.splash-video-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
-@keyframes flag-enter {
-  to { opacity: 1; transform: scale(1); }
+
+/* -- Dark overlay on video so text is readable -- */
+.splash-video-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
 }
-.flag-band {
-  height: 28px;
+
+/* -- Loading Text = THE loading bar -- */
+.splash-text-wrapper {
+  position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: center;
+  padding: 0 28px;
+  max-width: 900px;
+  width: 100%;
 }
-.flag-band.saffron { background: var(--saffron); }
-.flag-band.white   { background: var(--white-flag); }
-.flag-band.green   { background: var(--green); }
-.ashoka-chakra svg { display: block; }
 
-/* -- Loading Text -- */
-.splash-text {
-  display: flex; flex-wrap: wrap;
-  justify-content: center; gap: 8px 10px;
-  max-width: 500px; padding: 0 20px;
+.splash-text-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
-.splash-word {
-  font-size: 1.6rem; font-weight: 700;
-  color: var(--text-4);
-  transition: color 0.4s ease;
-  letter-spacing: -0.3px;
-}
-.splash-word.lit { color: var(--text-1); }
 
-/* -- Progress Bar -- */
-.splash-bar {
-  width: 240px; height: 3px;
-  background: var(--bg-3); border-radius: 2px;
-  overflow: hidden;
+/* Shell text (dim, always visible) */
+.splash-char-shell {
+  display: block;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  letter-spacing: 2px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  word-spacing: 6px;
+  user-select: none;
 }
-.splash-bar-fill {
-  height: 100%; width: 0;
-  background: var(--saffron);
-  border-radius: 2px;
-  transition: width 0.35s ease;
+
+/* Fill text (golden gradient, clips left→right to simulate loading bar) */
+.splash-char-fill {
+  position: absolute;
+  top: 0; left: 0;
+  display: block;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  letter-spacing: 2px;
+  line-height: 1.35;
+  word-spacing: 6px;
+  text-transform: uppercase;
+  user-select: none;
+  background: linear-gradient(90deg, #FFD700, #FF9933, #FFFFFF, #138808);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  clip-path: inset(0 100% 0 0);          /* start fully clipped */
+  transition: clip-path 0.12s ease-out;
+  animation: splash-gradient-shift 4s ease-in-out infinite;
+  text-shadow: none;
+}
+
+@keyframes splash-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ============================================================
@@ -576,7 +606,8 @@ html, body {
   .chat-input-bar { padding: 8px 12px 12px; }
   .header-tagline { display: none; }
   .message { max-width: 90%; }
-  .splash-word { font-size: 1.2rem; }
+  .splash-text-wrapper { padding: 0 16px; }
+  .splash-char-shell, .splash-char-fill { font-size: clamp(1.1rem, 5vw, 1.6rem); letter-spacing: 1px; }
 }
 @media (max-width: 480px) {
   .persona-btn { grid-template-columns: 38px 1fr; }
