@@ -285,6 +285,16 @@ html, body {
   border-left: 1px solid var(--border-h); padding-left: 14px;
   letter-spacing: 0.4px;
 }
+.header-center {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center;
+}
+.powered-by {
+  font-size: 0.75rem; color: var(--text-3); letter-spacing: 0.5px;
+}
+.powered-by strong {
+  color: #FFA611; font-weight: 600;
+}
 .header-right { display: flex; align-items: center; gap: 14px; }
 
 /* ── SMART MODE BUTTON ── */
@@ -784,6 +794,7 @@ html, body {
   .suggestion-chips { padding: 8px 16px 4px; }
   .chat-input-bar { padding: 8px 12px 12px; }
   .header-tagline { display: none; }
+  .header-center { display: none; }
   .message { max-width: 90%; }
   .splash-text-wrapper { padding: 0 20px; }
   .splash-char-shell, .splash-char-fill { font-size: clamp(0.9rem, 4.5vw, 1.4rem); letter-spacing: 4px; word-spacing: 5px; }
