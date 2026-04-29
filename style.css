@@ -202,10 +202,10 @@ html, body {
 /* --- Individual persona button --- */
 .persona-btn {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 36px 1fr;
   grid-template-rows: auto auto;
-  grid-template-areas: "icon label" "icon desc";
-  align-items: center; column-gap: 12px;
+  grid-template-areas: "num label" "num desc";
+  align-items: center; column-gap: 14px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 3px solid transparent;
@@ -216,7 +216,16 @@ html, body {
   position: relative;
 }
 
-.persona-icon  { grid-area: icon; font-size: 1.4rem; text-align: center; transition: transform 0.3s ease; }
+.persona-num {
+  grid-area: num;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.18);
+  text-align: center;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
 .persona-label { grid-area: label; font-size: 0.92rem; font-weight: 600; color: rgba(255,255,255,0.88); transition: color 0.3s ease; }
 .persona-desc  { grid-area: desc; font-size: 0.76rem; color: rgba(255,255,255,0.35); margin-top: 2px; transition: color 0.3s ease; }
 
@@ -228,7 +237,7 @@ html, body {
 }
 .persona-saffron:hover .persona-label { color: var(--saffron); }
 .persona-saffron:hover .persona-desc  { color: rgba(255, 153, 51, 0.6); }
-.persona-saffron:hover .persona-icon  { transform: scale(1.1); }
+.persona-saffron:hover .persona-num   { color: var(--saffron); }
 
 /* -- Hover: White + Blue text (middle option) -- */
 .persona-white:hover {
@@ -238,7 +247,7 @@ html, body {
 }
 .persona-white:hover .persona-label { color: #1A3A8F; }
 .persona-white:hover .persona-desc  { color: rgba(26, 58, 143, 0.7); }
-.persona-white:hover .persona-icon  { transform: scale(1.1); }
+.persona-white:hover .persona-num   { color: #1A3A8F; }
 
 /* -- Hover: Green (last option) -- */
 .persona-green:hover {
@@ -248,7 +257,7 @@ html, body {
 }
 .persona-green:hover .persona-label { color: #2ECC40; }
 .persona-green:hover .persona-desc  { color: rgba(46, 204, 64, 0.6); }
-.persona-green:hover .persona-icon  { transform: scale(1.1); }
+.persona-green:hover .persona-num   { color: #2ECC40; }
 
 /* ============================================================
    APP SHELL
