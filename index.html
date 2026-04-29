@@ -31,23 +31,32 @@
 
   <!-- ====== ONBOARDING — WHO ARE YOU? ====== -->
   <div id="onboarding-overlay" class="onboarding-overlay">
+    <!-- Patriotic Video Background -->
+    <video class="onboarding-video-bg" autoplay muted loop playsinline>
+      <source src="https://videos.pexels.com/video-files/13190482/13190482-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+    </video>
+    <div class="onboarding-video-overlay"></div>
+
     <div class="onboarding-card">
+      <!-- Left: Heading -->
       <div class="onboarding-question">
-        <h2>Who are you?</h2>
+        <h2>Who<br>are you?</h2>
         <p>I'll personalise my explanations just for you.</p>
       </div>
+
+      <!-- Right: Persona Options -->
       <div class="persona-buttons">
-        <button class="persona-btn" id="btn-first-voter" data-persona="first-voter" onclick="selectPersona(this)">
+        <button class="persona-btn persona-saffron" id="btn-first-voter" data-persona="first-voter" onclick="selectPersona(this)">
           <span class="persona-icon">🗳️</span>
           <span class="persona-label">First-time Voter</span>
           <span class="persona-desc">New to elections? I'll guide you gently.</span>
         </button>
-        <button class="persona-btn" id="btn-citizen" data-persona="citizen" onclick="selectPersona(this)">
+        <button class="persona-btn persona-white" id="btn-citizen" data-persona="citizen" onclick="selectPersona(this)">
           <span class="persona-icon">🏛️</span>
           <span class="persona-label">Curious Citizen</span>
           <span class="persona-desc">Want to understand how democracy works.</span>
         </button>
-        <button class="persona-btn" id="btn-student" data-persona="student" onclick="selectPersona(this)">
+        <button class="persona-btn persona-green" id="btn-student" data-persona="student" onclick="selectPersona(this)">
           <span class="persona-icon">📋</span>
           <span class="persona-label">Student / Researcher</span>
           <span class="persona-desc">Need detailed, factual information.</span>
