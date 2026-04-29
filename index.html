@@ -77,6 +77,7 @@
         <span class="header-tagline">India's Election Guide</span>
       </div>
       <div class="header-right">
+        <button class="smart-mode-btn" id="smart-mode-btn" onclick="openSmartModal()">Smart Mode</button>
         <span class="persona-badge" id="persona-badge">
           <span id="persona-icon-display">🗳️</span>
           <span id="persona-label-display">First-time Voter</span>
@@ -228,6 +229,23 @@
           <p class="input-disclaimer">Powered by AI · For civic education purposes only</p>
         </div>
       </main>
+    </div>
+  </div>
+
+  <!-- SMART MODE MODAL -->
+  <div class="modal-overlay" id="smart-modal">
+    <div class="modal-content">
+      <h3>Unlock Smart Mode</h3>
+      <p>Connect the free Google Gemini API to make VoteWise truly intelligent. It will be able to answer any nuanced or edge-case question about Indian elections.</p>
+      <div class="modal-input-group">
+        <label for="gemini-key">Gemini API Key</label>
+        <input type="password" id="gemini-key" placeholder="AIzaSy..." autocomplete="off" />
+        <p class="modal-help">Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>. Saved locally in your browser.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" onclick="closeSmartModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="saveGeminiKey()">Save Key</button>
+      </div>
     </div>
   </div>
 

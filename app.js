@@ -138,6 +138,15 @@ function initApp() {
   startFactRotation();
   sendWelcomeMessage();
   fetchLiveElectionData();
+  
+  // Check if Smart Mode is active
+  if (localStorage.getItem('gemini_api_key')) {
+    const btn = document.getElementById('smart-mode-btn');
+    if (btn) {
+      btn.classList.add('active');
+      btn.textContent = 'AI Mode Active';
+    }
+  }
 }
 
 function sendWelcomeMessage() {
@@ -273,15 +282,91 @@ async function sendMessage() {
 
   // Small delay to feel natural
   await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+  
+  const apiKey = localStorage.getItem('gemini_api_key');
+  let responseText = '';
+
+  if (apiKey) {
+    responseText = await getGeminiResponse(text, apiKey);
+    if (!responseText) {
+      // Fallback if API fails
+      responseText = getResponse(text);
+      showToast('Smart Mode failed. Falling back to offline engine.');
+    }
+  } else {
+    responseText = getResponse(text);
+  }
+
   hideTyping();
 
-  const response = getResponse(text);
-  const { mainText, followup } = parseResponse(response);
+  const { mainText, followup } = parseResponse(responseText);
   appendBotMessage(formatText(mainText), followup, true);
-  const botPhase = detectPhase(response);
+  const botPhase = detectPhase(responseText);
   if (botPhase) activatePhase(botPhase);
 
   setLoading(false);
+}
+
+// ── SMART MODE (GEMINI) ────────────────────────
+function openSmartModal() {
+  document.getElementById('smart-modal').classList.add('active');
+  const existingKey = localStorage.getItem('gemini_api_key');
+  if (existingKey) {
+    document.getElementById('gemini-key').value = existingKey;
+  }
+}
+
+function closeSmartModal() {
+  document.getElementById('smart-modal').classList.remove('active');
+}
+
+function saveGeminiKey() {
+  const key = document.getElementById('gemini-key').value.trim();
+  if (!key) {
+    localStorage.removeItem('gemini_api_key');
+    const btn = document.getElementById('smart-mode-btn');
+    btn.classList.remove('active');
+    btn.textContent = 'Smart Mode';
+    showToast('Smart Mode disabled.');
+  } else {
+    localStorage.setItem('gemini_api_key', key);
+    const btn = document.getElementById('smart-mode-btn');
+    btn.classList.add('active');
+    btn.textContent = 'AI Mode Active';
+    showToast('Smart Mode activated!');
+  }
+  closeSmartModal();
+}
+
+async function getGeminiResponse(userText, apiKey) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const personaDesc = state.persona === 'first-voter' ? "Explain simply as if to a first-time voter. Use an encouraging tone." :
+                      state.persona === 'student' ? "Provide detailed, factual, and constitutional information. Be thorough." :
+                      "Provide clear, balanced answers for a curious citizen.";
+
+  const prompt = `You are VoteWise, an expert AI assistant on Indian Elections and the Election Commission of India.
+Rule 1: Answer ONLY questions related to Indian elections, voting, democracy, and politics. If asked about anything else, politely decline.
+Rule 2: Keep your answers concise, structured with bullet points where appropriate.
+Rule 3: At the very end of your response, provide exactly ONE follow-up question the user could ask, formatted exactly like this: "FOLLOWUP: [your question here]".
+User's query: "${userText}"
+Instructions for this user: ${personaDesc}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.3 }
+      })
+    });
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    return data.candidates[0].content.parts[0].text;
+  } catch (e) {
+    console.error('Gemini API Error:', e);
+    return null;
+  }
 }
 
 // ── KNOWLEDGE ENGINE ───────────────────────────
