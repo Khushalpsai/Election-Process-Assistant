@@ -340,14 +340,43 @@ html, body {
 
 /* ── FACT SECTION ── */
 .fact-section { padding-bottom: 14px !important; }
+
+.fact-body {
+  display: flex; align-items: center; gap: 8px;
+}
+
+.fact-arrow {
+  flex-shrink: 0; width: 22px; height: 36px;
+  border: none; background: transparent;
+  cursor: pointer; padding: 0;
+  display: flex; flex-direction: column;
+  gap: 1px; border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.5; transition: opacity var(--ease), transform var(--ease);
+}
+.fact-arrow:hover { opacity: 1; transform: scale(1.15); }
+
+.arrow-bar {
+  flex: 1; width: 100%;
+  display: block;
+}
+.arrow-bar.saffron { background: var(--saffron); }
+.arrow-bar.white   { background: var(--white-flag); }
+.arrow-bar.green   { background: var(--green); }
+
+/* Arrow shapes using clip-path */
+.fact-arrow-left { clip-path: polygon(100% 0%, 100% 100%, 0% 50%); }
+.fact-arrow-right { clip-path: polygon(0% 0%, 100% 50%, 0% 100%); }
+
 .fact-text {
+  flex: 1;
   font-size: 0.8rem; color: var(--text-2); line-height: 1.55;
   min-height: 44px;
   transition: opacity 0.3s ease;
 }
 .fact-text.fading { opacity: 0; }
 
-.fact-dots { display: flex; gap: 4px; margin-top: 10px; }
+.fact-dots { display: flex; gap: 4px; margin-top: 10px; justify-content: center; }
 .fact-dot {
   width: 4px; height: 4px; border-radius: 50%;
   background: var(--text-4); transition: all var(--ease);

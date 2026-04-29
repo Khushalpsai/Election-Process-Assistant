@@ -5,7 +5,6 @@
 const state = {
   persona: null,
   activePhase: null,
-  conversationHistory: [],
   isLoading: false,
   factIndex: 0,
 };
@@ -83,17 +82,7 @@ const CHIP_SETS = {
   ],
 };
 
-const SYSTEM_PROMPT = `You are VoteWise, a friendly civic education assistant for Indian citizens. You explain India's election process clearly and simply. You cover voter registration, nominations, campaigning rules, EVMs, NOTA, voting day procedures, vote counting, and the role of the ECI. Always use simple, conversational language. Avoid legal jargon — if you must use a term, explain it in brackets.
 
-User persona context will be given. Rules by persona:
-- First-time Voter: Be extra gentle, encouraging, and reassuring. Use relatable analogies.
-- Curious Citizen: Be informative and engaging, like explaining to a curious friend.
-- Student/Researcher: Be more detailed, factual, cite specific acts or rules where relevant.
-
-IMPORTANT: Always end every response with a section like this (literally, at the very end):
-FOLLOWUP: [One helpful follow-up question the user might want to ask, phrased as a question, max 10 words]
-
-Do not use markdown headers (###). Use *bold* for emphasis. Keep responses concise but complete — 3 to 6 paragraphs max. If the user asks something completely unrelated to Indian elections, politely decline and steer them back.`;
 
 // ── SPLASH SCREEN ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -279,70 +268,25 @@ async function sendMessage() {
   appendUserMessage(text);
   const phase = detectPhase(text);
   if (phase) activatePhase(phase);
-  state.conversationHistory.push({ role: 'user', content: text });
 
   setLoading(true);
   showTyping();
 
-  try {
-    const response = await callLLM(text);
-    hideTyping();
-    const { mainText, followup } = parseResponse(response);
-    appendBotMessage(formatText(mainText), followup, true);
-    const botPhase = detectPhase(response);
-    if (botPhase) activatePhase(botPhase);
-    state.conversationHistory.push({ role: 'assistant', content: response });
-  } catch (err) {
-    hideTyping();
-    appendBotMessage(`<p>I'm having trouble connecting. Please try again! 🙏</p><p><em>${escHtml(err.message)}</em></p>`, null, true);
-  } finally {
-    setLoading(false);
-  }
+  // Small delay to feel natural
+  await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+  hideTyping();
+
+  const response = getResponse(text);
+  const { mainText, followup } = parseResponse(response);
+  appendBotMessage(formatText(mainText), followup, true);
+  const botPhase = detectPhase(response);
+  if (botPhase) activatePhase(botPhase);
+
+  setLoading(false);
 }
 
-// ── LLM API ────────────────────────────────────
-async function callLLM(userMessage) {
-  const personaNote = {
-    'first-voter': 'The user is a First-time Voter — be extra gentle and encouraging.',
-    'citizen':     'The user is a Curious Citizen — be informative and engaging.',
-    'student':     'The user is a Student/Researcher — be detailed and factual.',
-  }[state.persona] || '';
-
-  const messages = [
-    ...state.conversationHistory.slice(-8),
-    { role: 'user', content: userMessage }
-  ];
-
-  const API_KEY = 'YOUR_GEMINI_API_KEY';
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-  if (API_KEY === 'YOUR_GEMINI_API_KEY') return getFallbackResponse(userMessage);
-
-  const payload = {
-    system_instruction: { parts: [{ text: SYSTEM_PROMPT + '\n\nPersona note: ' + personaNote }] },
-    contents: messages.map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    })),
-    generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
-  };
-
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err?.error?.message || `HTTP ${res.status}`);
-  }
-  const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response.";
-}
-
-// ── FALLBACK RESPONSES ─────────────────────────
-function getFallbackResponse(msg) {
+// ── KNOWLEDGE ENGINE ───────────────────────────
+function getResponse(msg) {
   const l = msg.toLowerCase();
   if (l.includes('register') || l.includes('voter id') || l.includes('epic'))
     return `To register as a voter in India, you need to be:\n• **18 years or older** as of January 1st of the election year\n• An **Indian citizen**\n• A resident of the constituency you're registering in\n\nHere's how to register:\n1. Visit the **National Voters' Service Portal (NVSP)** at nvsp.in\n2. Fill out **Form 6** — the form for new voter registration\n3. Submit documents: proof of age and proof of address\n4. A **Booth Level Officer (BLO)** will verify your details\n5. Once approved, you receive your **EPIC card** (Voter ID card)!\n\nThe process usually takes 4–6 weeks.\n\nFOLLOWUP: What documents are needed for voter registration?`;
@@ -358,7 +302,27 @@ function getFallbackResponse(msg) {
     return `**Vote counting and results:**\n\n• Counting happens at designated centres, 1–2 days after voting\n• **Postal ballots** are counted first\n• EVM results tallied round by round\n• India uses **First Past The Post (FPTP)** — most votes wins\n\n**After counting:**\n• Returning Officer issues **Form 20** declaring the winner\n• Winners take oath; party with 272+ seats forms government\n\nFOLLOWUP: What happens if no party wins a clear majority?`;
   if (l.includes('eci') || l.includes('election commission'))
     return `The **Election Commission of India (ECI)** administers all elections. Established **January 25, 1950**.\n\n**Key roles:**\n• Announces election schedules\n• Enforces Model Code of Conduct\n• Deploys security forces\n• Recognises parties and allocates symbols\n• Operates Voter Helpline (1950)\n\nThe ECI has a **Chief Election Commissioner** and two Election Commissioners with Supreme Court judge status.\n\nFOLLOWUP: How does the ECI ensure elections are fair?`;
-  return `Great question! 🇮🇳\n\nI can help with: Voter Registration, Nominations, Model Code of Conduct, EVMs & VVPAT, NOTA, Voting Day, Counting & Results, and the Election Commission.\n\nTry asking about any of these topics!\n\nFOLLOWUP: How do I get my Voter ID card?`;
+  if (l.includes('document') || l.includes('proof') || l.includes('id card'))
+    return `**Documents accepted for voting** (any one of these 12):\n• Voter ID card (EPIC)\n• Aadhaar card\n• PAN card\n• Indian Passport\n• Driving Licence\n• Bank/Post Office Passbook with photo\n• Class 10 marksheet\n• MNREGA Job Card\n• Health Insurance Smart Card\n• Income Tax Assessment Order\n• Disability ID from Social Justice Dept\n• Photo ID from Central/State Govt\n\nFor **registration**, you need proof of age + proof of address.\n\nFOLLOWUP: How do I register online on the NVSP portal?`;
+  if (l.includes('independent') || l.includes('party'))
+    return `Yes! **Independent candidates** can absolutely contest elections in India without being part of any political party.\n\nRequirements:\n• Must be a registered voter in the constituency\n• Must be **25 years or older** for Lok Sabha/State Assembly\n• Must file nomination papers with a **security deposit** (₹25,000 for Lok Sabha, ₹10,000 for Assembly)\n• Needs at least **10 proposers** from the constituency\n\nIf the independent candidate fails to get 1/6th of total votes, their deposit is forfeited. Independent candidates are assigned a **free symbol** by the ECI from a list.\n\nFOLLOWUP: How are election symbols allocated to parties?`;
+  if (l.includes('phase') || l.includes('how many') || l.includes('schedule'))
+    return `India conducts elections **in phases** to ensure security and logistics across its vast territory.\n\n**Why phases?**\n• India has limited Central Armed Police Forces (CAPF)\n• Forces need to move between states/regions\n• Ensures adequate security at every booth\n\nGeneral elections typically have **5–7 phases** spread over several weeks. The ECI decides the schedule based on:\n• Security requirements\n• Weather conditions\n• Festival dates\n• Exam schedules\n\nThe 2024 Lok Sabha election had **7 phases** from April 19 to June 1!\n\nFOLLOWUP: How does the ECI decide which areas vote in which phase?`;
+  if (l.includes('postal') || l.includes('nri') || l.includes('overseas'))
+    return `**Postal ballots** allow certain categories to vote without visiting a polling station:\n\n**Who can use postal ballots?**\n• Armed forces personnel & their families\n• Government employees on election duty\n• Voters above **80 years of age**\n• Persons with disabilities (PwD)\n• COVID-affected or quarantined voters\n\n**NRI Voting:**\n• NRIs can vote in India if registered in their home constituency\n• They must be present in person at the polling booth\n• The ECI has been working on an **online/postal system for NRIs** but it's not fully implemented yet\n\nFOLLOWUP: How do senior citizens and disabled voters cast their votes?`;
+  if (l.includes('ink') || l.includes('indelible'))
+    return `The **indelible ink** used in Indian elections is a special marker applied to your left index finger after voting.\n\n**Key facts:**\n• Made by **Mysore Paints and Varnish Ltd** — the sole authorized manufacturer\n• Contains **silver nitrate** which bonds with skin cells\n• Stays visible for **2–4 weeks**\n• Cannot be removed by soap, alcohol, or chemicals\n• Applied on the **cuticle/nail bed** so it can't be scraped off\n\nThis prevents **double voting** — polling officers check for ink marks before allowing entry!\n\nFOLLOWUP: What happens if someone tries to vote twice?`;
+  if (l.includes('symbol') || l.includes('logo'))
+    return `**Election symbols** are the icons next to candidate names on the EVM ballot unit.\n\n**National parties** have reserved symbols used across India (e.g., lotus, hand, hammer-sickle).\n\n**State parties** have symbols reserved within their states.\n\n**Independent candidates** get symbols from the ECI's **free symbols** list.\n\nWhy symbols matter:\n• India has diverse literacy levels — symbols help voters identify candidates easily\n• The ECI maintains an official list of allocated symbols\n• Disputes over symbols are settled by the ECI under the Election Symbols Order, 1968\n\nFOLLOWUP: How does a party become a national party in India?`;
+  if (l.includes('booth') || l.includes('where') || l.includes('polling station'))
+    return `To find your **polling station**:\n\n1. Visit **nvsp.in** → Search by EPIC number or name\n2. Use the **Voter Helpline App** (available on Android & iOS)\n3. Call the **Voter Helpline: 1950** (toll-free)\n4. Send SMS: **EPIC <your_voter_id>** to 1950\n\nYour polling station is usually a **school, community hall, or government building** near your registered address. On election day, look for the ECI banner and booth number outside the building.\n\nFOLLOWUP: What time do polling stations open and close?`;
+  if (l.includes('time') || l.includes('hours') || l.includes('open') || l.includes('close'))
+    return `**Polling hours** in Indian elections:\n\n• Typically **7:00 AM to 6:00 PM** in most constituencies\n• Can vary by region (some areas start at 8 AM)\n• If you're in the queue before closing time, **you WILL be allowed to vote**\n• The ECI announces specific timings for each phase\n\n**Important:** If the queue is long, don't leave! Officers will ensure everyone who arrived before 6 PM gets to vote.\n\nFOLLOWUP: Can I take my phone inside the voting booth?`;
+  if (l.includes('phone') || l.includes('camera') || l.includes('selfie'))
+    return `**No, phones are NOT allowed** inside the voting compartment!\n\nRules:\n• You cannot carry your phone into the polling booth\n• Taking photos/selfies of your vote is **illegal** under Section 128 of the RPA\n• Your phone must be left outside or with the polling officer\n• This protects **vote secrecy** — no one should know who you voted for\n\nViolation can lead to imprisonment of up to **3 months** or a fine.\n\nFOLLOWUP: What other things are not allowed at a polling station?`;
+  if (l.includes('age') || l.includes('18') || l.includes('eligible') || l.includes('qualify'))
+    return `**Voter eligibility** in India:\n\n• Must be an **Indian citizen**\n• Must be **18 years or older** as of January 1st of the year the electoral roll is prepared\n• Must be a **resident** of the constituency where you want to vote\n• Must NOT be disqualified under any law (e.g., convicted of certain crimes)\n\n**Cannot vote:**\n• Non-citizens\n• Persons of unsound mind (as declared by court)\n• Persons disqualified for corrupt practices or election offenses\n\nFOLLOWUP: How do I register to vote online?`;
+  return `Great question! 🇮🇳\n\nI can help you with all of these topics about Indian elections:\n• **Voter Registration** — How to get your Voter ID\n• **Candidate Nomination** — Who can contest and how\n• **Model Code of Conduct** — Campaign rules\n• **EVM & VVPAT** — How voting machines work\n• **NOTA** — None Of The Above option\n• **Voting Day** — Step-by-step process\n• **Counting & Results** — How winners are decided\n• **Election Commission** — Its role and powers\n• **Documents needed** — What ID to carry\n• **Polling stations** — How to find yours\n\nTry asking about any of these! You can also tap the timeline phases on the left.\n\nFOLLOWUP: How do I get my Voter ID card?`;
 }
 
 // ── RESPONSE PARSING ───────────────────────────
@@ -443,6 +407,16 @@ function startFactRotation() {
     state.factIndex = (state.factIndex + 1) % FACTS.length;
     showFact(state.factIndex);
   }, 30000);
+}
+
+function nextFact() {
+  state.factIndex = (state.factIndex + 1) % FACTS.length;
+  showFact(state.factIndex);
+}
+
+function prevFact() {
+  state.factIndex = (state.factIndex - 1 + FACTS.length) % FACTS.length;
+  showFact(state.factIndex);
 }
 
 function showFact(idx) {

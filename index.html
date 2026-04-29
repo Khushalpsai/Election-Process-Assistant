@@ -217,7 +217,19 @@
         <!-- Did You Know Section -->
         <div class="sidebar-section fact-section">
           <div class="sidebar-section-title">Did You Know?</div>
-          <p class="fact-text" id="fact-text">India has over 960 million registered voters — the largest electorate in the world!</p>
+          <div class="fact-body">
+            <button class="fact-arrow fact-arrow-left" onclick="prevFact()" title="Previous fact">
+              <span class="arrow-bar saffron"></span>
+              <span class="arrow-bar white"></span>
+              <span class="arrow-bar green"></span>
+            </button>
+            <p class="fact-text" id="fact-text">India has over 960 million registered voters — the largest electorate in the world!</p>
+            <button class="fact-arrow fact-arrow-right" onclick="nextFact()" title="Next fact">
+              <span class="arrow-bar saffron"></span>
+              <span class="arrow-bar white"></span>
+              <span class="arrow-bar green"></span>
+            </button>
+          </div>
           <div class="fact-dots" id="fact-dots"></div>
         </div>
       </aside>
