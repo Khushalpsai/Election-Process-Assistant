@@ -347,7 +347,7 @@ async function getGeminiResponse(userText, apiKey) {
   const prompt = `You are VoteWise, an expert AI assistant on Indian Elections and the Election Commission of India.
 Rule 1: Answer ONLY questions related to Indian elections, voting, democracy, and politics. If asked about anything else, politely decline.
 Rule 2: Keep your answers concise, structured with bullet points where appropriate.
-Rule 3: At the very end of your response, provide exactly ONE follow-up question the user could ask, formatted exactly like this: "FOLLOWUP: [your question here]".
+Rule 3: At the very end of your response, provide exactly ONE follow-up question the user could ask. Format it exactly like this as plain text (no bolding): "FOLLOWUP: [your question here]".
 User's query: "${userText}"
 Instructions for this user: ${personaDesc}`;
 
@@ -356,15 +356,39 @@ Instructions for this user: ${personaDesc}`;
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3 }
+        contents: [{ parts: [{ text: prompt }] }]
       })
     });
-    if (!res.ok) throw new Error('API Error');
+    
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Gemini API Error:', res.status, errText);
+      if (res.status === 400 && errText.includes('API key not valid')) {
+        showToast('Invalid API Key. Please check your Smart Mode settings.');
+      } else {
+        showToast(`API Error (${res.status}). Falling back to offline mode.`);
+      }
+      return null;
+    }
+    
     const data = await res.json();
-    return data.candidates[0].content.parts[0].text;
+    
+    if (data.promptFeedback && data.promptFeedback.blockReason) {
+       return "I apologize, but my safety filters blocked this request. FOLLOWUP: Ask me about the election process!";
+    }
+    if (!data.candidates || data.candidates.length === 0) {
+       return "I'm sorry, I couldn't generate a response. FOLLOWUP: Ask me another question about elections.";
+    }
+    
+    const candidate = data.candidates[0];
+    if (candidate.content && candidate.content.parts && candidate.content.parts.length > 0) {
+      return candidate.content.parts[0].text;
+    } else {
+      return "I'm sorry, I couldn't generate a response. FOLLOWUP: Ask me another question about elections.";
+    }
   } catch (e) {
-    console.error('Gemini API Error:', e);
+    console.error('Gemini API Fetch Error:', e);
+    showToast('Network error while contacting AI.');
     return null;
   }
 }
@@ -411,9 +435,9 @@ function getResponse(msg) {
 
 // ── RESPONSE PARSING ───────────────────────────
 function parseResponse(text) {
-  const match = text.match(/FOLLOWUP:\s*(.+?)$/im);
+  const match = text.match(/\**FOLLOWUP:\**\s*(.+?)$/im);
   const followup = match ? match[1].trim() : null;
-  const mainText = text.replace(/FOLLOWUP:\s*.+$/im, '').trim();
+  const mainText = text.replace(/\**FOLLOWUP:\**\s*.+$/im, '').trim();
   return { mainText, followup };
 }
 
