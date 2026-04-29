@@ -75,9 +75,10 @@ The core of VoteWise — a conversational interface for asking questions about I
 
 | Feature | Description |
 |---|---|
-| **Built-in Knowledge Engine** | 18+ topic areas answered instantly using keyword matching — no external API or internet required for responses. |
-| **Zero Configuration** | Works out of the box — no API keys, no accounts, no setup. |
-| **Offline Capable** | All responses are embedded in `app.js`; the chat works fully offline. |
+| **Hybrid Chat Engine** | Choose between the built-in offline engine or "Smart Mode" powered by the Google Gemini API. |
+| **Smart Mode (Gemini API)** | Users can provide their own free Gemini API key to unlock real AI that answers any nuanced edge-case questions. |
+| **Local Fallback** | If the API key is missing or invalid, the app gracefully falls back to the local knowledge engine seamlessly. |
+| **Built-in Knowledge Engine** | 18+ topic areas answered instantly using keyword matching — works fully offline with zero setup. |
 | **Rich Text Formatting** | Responses include **bold text**, *italics*, bulleted lists, numbered steps, and emoji indicators. |
 | **Follow-Up Suggestions** | Every response includes a contextual "You might also ask:" follow-up chip to guide the conversation forward. |
 | **Typing Indicator** | Three bouncing dots appear during a simulated response delay (600–1000ms) for a natural feel. |
@@ -259,6 +260,7 @@ Contextual, one-tap buttons below the chat for quick navigation.
 | **SSL** | Automatic HTTPS |
 | **CDN** | Global edge caching |
 | **Tier** | Free (10 GB storage, 360 MB/day transfer) |
+| **Branding** | "Powered by Firebase 🔥" indicator in the app header |
 
 ### Continuous Deployment
 | Detail | Value |
@@ -288,6 +290,7 @@ Code edit → git push → GitHub Actions triggers → Firebase deploys → Site
 | **RSS2JSON API** | Converts Google News RSS to JSON for live data |
 | **Pexels Video CDN** | Splash screen waving flag video |
 | **Google Fonts** | Cinzel + Inter typefaces |
+| **Google Gemini API** | (Optional) Powers "Smart Mode" for generative AI responses |
 | **Firebase Hosting** | Production deployment with global CDN |
 | **GitHub Actions** | Automated CI/CD pipeline |
 
@@ -360,7 +363,7 @@ The built-in knowledge engine covers **18+ topics** across the entire Indian ele
 | **Persona Types** | 3 |
 | **Timeline Phases** | 6 |
 | **External Dependencies** | 0 (no npm packages) |
-| **API Keys Required** | 0 |
+| **API Keys Required** | Optional (Gemini API for Smart Mode) |
 | **Frameworks Used** | 0 (pure HTML/CSS/JS) |
 
 ---

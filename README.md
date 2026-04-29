@@ -19,9 +19,9 @@
 - Persona displayed as plain text in the header (no background)
 
 ### Chat Assistant
-- **Built-in Knowledge Engine** — works instantly, offline, zero configuration
-- No API keys or setup needed — anyone can use it
-- Covers 18+ election topics with detailed, accurate responses
+- **Hybrid Knowledge Engine:**
+  - **Offline Mode:** Built-in engine covers 18+ election topics instantly, fully offline, with zero setup.
+  - **Smart Mode:** Optional Google Gemini API integration for advanced AI capability. Users can provide a free API key to unlock dynamic, nuanced answers.
 - Follow-up suggestions after every response
 - Contextual quick-action chips that update per topic
 
@@ -33,8 +33,9 @@
 ### Design
 - Premium dark mode UI (no unnecessary glows or backgrounds)
 - Flat, minimal buttons with hover highlights
+- **"Powered by Firebase"** indicator in the app header
 - Indian flag accent colors (Saffron #FF9933, Green #138808)
-- Inter font with clean weight hierarchy
+- Cinzel and Inter fonts with clean weight hierarchy
 - Mobile responsive
 
 ---
@@ -79,7 +80,7 @@ npx serve .
 ```
 Open **http://localhost:5500** in your browser.
 
-**No API keys or configuration needed.** The app works fully offline with its built-in knowledge engine.
+**No API keys or configuration needed by default.** The app works fully offline with its built-in knowledge engine. Users can optionally input a Gemini API key via the "Smart Mode" button in the UI.
 
 ---
 
@@ -110,6 +111,7 @@ Workflow files: `.github/workflows/firebase-hosting-merge.yml`
 | HTML5 | Semantic page structure |
 | CSS3 | Dark theme, animations, responsive layout |
 | Vanilla JavaScript | App logic, knowledge engine, DOM management |
+| Google Gemini API | (Optional) Powers the "Smart Mode" AI chat engine |
 | RSS2JSON API | Live election news feed |
 | Firebase Hosting | Production deployment + CDN |
 | GitHub Actions | Continuous deployment pipeline |
@@ -176,7 +178,7 @@ Splash Screen (3s) → Onboarding (persona selection) → Main App (chat + sideb
 - **Add topics:** Add keyword arrays in `PHASE_KEYWORDS`, chip sets in `CHIP_SETS`, responses in `getResponse()`
 - **Change theme:** Edit CSS custom properties in `:root`
 - **Add sidebar sections:** Add `<div class="sidebar-section">` in `index.html`
-- **Add AI:** Replace `getResponse()` with an LLM API call in `sendMessage()`
+- **Modify AI Prompt:** Update the `prompt` string in the `getGeminiResponse()` function in `app.js`
 
 ---
 
