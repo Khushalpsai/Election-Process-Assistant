@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoteWise — India's Election Guide</title>
+  <meta name="description" content="VoteWise is an interactive civic education assistant that helps Indian citizens understand the election process — from voter registration to result declaration." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ONBOARDING OVERLAY -->
+  <div id="onboarding-overlay" class="onboarding-overlay active">
+    <div class="onboarding-card">
+      <div class="onboarding-logo">
+        <div class="logo-emblem">
+          <span class="emblem-chakra">☸</span>
+        </div>
+        <h1 class="onboarding-title">VoteWise</h1>
+        <p class="onboarding-subtitle">India's Civic Election Guide</p>
+      </div>
+      <div class="ashoka-strip">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="onboarding-question">
+        <h2>Welcome! Who are you?</h2>
+        <p>I'll personalise my explanations just for you.</p>
+      </div>
+      <div class="persona-buttons">
+        <button class="persona-btn" id="btn-first-voter" data-persona="first-voter" onclick="selectPersona(this)">
+          <span class="persona-icon">🗳️</span>
+          <span class="persona-label">First-time Voter</span>
+          <span class="persona-desc">New to elections? I'll guide you gently.</span>
+        </button>
+        <button class="persona-btn" id="btn-citizen" data-persona="citizen" onclick="selectPersona(this)">
+          <span class="persona-icon">🏛️</span>
+          <span class="persona-label">Curious Citizen</span>
+          <span class="persona-desc">Want to understand how democracy works.</span>
+        </button>
+        <button class="persona-btn" id="btn-student" data-persona="student" onclick="selectPersona(this)">
+          <span class="persona-icon">📋</span>
+          <span class="persona-label">Student / Researcher</span>
+          <span class="persona-desc">Need detailed, factual information.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" class="app hidden">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="header-logo">
+          <span class="logo-chakra">☸</span>
+          <span class="logo-text">VoteWise</span>
+        </div>
+        <span class="header-tagline">India's Election Guide</span>
+      </div>
+      <div class="header-right">
+        <div class="persona-badge" id="persona-badge">
+          <span id="persona-icon-display">🗳️</span>
+          <span id="persona-label-display">First-time Voter</span>
+        </div>
+        <button class="share-btn" id="share-btn" onclick="shareApp()" title="Share VoteWise">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+      </div>
+    </header>
+
+    <!-- BODY -->
+    <div class="app-body">
+
+      <!-- LEFT SIDEBAR — TIMELINE -->
+      <aside class="timeline-sidebar" id="timeline-sidebar">
+        <div class="sidebar-header">
+          <h3>Election Timeline</h3>
+          <p>Tap any phase to explore</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-phase" id="phase-registration" data-phase="registration" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">📝</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Registration</span>
+              <span class="phase-sub">Voter ID &amp; EPIC</span>
+            </div>
+            <div class="phase-connector bottom"></div>
+          </div>
+
+          <div class="timeline-phase" id="phase-nomination" data-phase="nomination" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">🏅</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Nomination</span>
+              <span class="phase-sub">Candidate Filing</span>
+            </div>
+            <div class="phase-connector bottom"></div>
+          </div>
+
+          <div class="timeline-phase" id="phase-campaigning" data-phase="campaigning" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">📣</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Campaigning</span>
+              <span class="phase-sub">MCC &amp; Rules</span>
+            </div>
+            <div class="phase-connector bottom"></div>
+          </div>
+
+          <div class="timeline-phase" id="phase-voting" data-phase="voting" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">🗳️</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Voting Day</span>
+              <span class="phase-sub">EVM &amp; VVPAT</span>
+            </div>
+            <div class="phase-connector bottom"></div>
+          </div>
+
+          <div class="timeline-phase" id="phase-counting" data-phase="counting" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">🔢</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Counting</span>
+              <span class="phase-sub">Vote Tallying</span>
+            </div>
+            <div class="phase-connector bottom"></div>
+          </div>
+
+          <div class="timeline-phase" id="phase-result" data-phase="result" onclick="jumpToPhase(this)">
+            <div class="phase-connector top"></div>
+            <div class="phase-dot">
+              <span class="phase-dot-icon">🏆</span>
+            </div>
+            <div class="phase-content">
+              <span class="phase-label">Result</span>
+              <span class="phase-sub">Declaration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DID YOU KNOW CARD -->
+        <div class="fact-card" id="fact-card">
+          <div class="fact-card-header">
+            <span class="fact-icon">💡</span>
+            <span class="fact-title">Did You Know?</span>
+          </div>
+          <p class="fact-text" id="fact-text">India has over 960 million registered voters — the largest electorate in the world!</p>
+          <div class="fact-dots" id="fact-dots"></div>
+        </div>
+      </aside>
+
+      <!-- MAIN CHAT AREA -->
+      <main class="chat-area">
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages injected here -->
+        </div>
+
+        <!-- QUICK ACTION CHIPS -->
+        <div class="suggestion-chips" id="suggestion-chips">
+          <!-- Chips injected here -->
+        </div>
+
+        <!-- CHAT INPUT -->
+        <div class="chat-input-bar">
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="chat-input"
+              placeholder="Ask me anything about Indian elections..."
+              autocomplete="off"
+              onkeydown="handleKeyDown(event)"
+            />
+            <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send message">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+          <p class="input-disclaimer">Powered by AI · For civic education purposes only</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
