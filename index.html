@@ -7,26 +7,76 @@
   <meta name="description" content="VoteWise is an interactive civic education assistant that helps Indian citizens understand the election process — from voter registration to result declaration." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ONBOARDING OVERLAY -->
-  <div id="onboarding-overlay" class="onboarding-overlay active">
-    <div class="onboarding-card">
-      <div class="onboarding-logo">
-        <div class="logo-emblem">
-          <span class="emblem-chakra">☸</span>
+  <!-- ====== SPLASH / LOADING SCREEN ====== -->
+  <div id="splash-screen" class="splash-screen active">
+    <!-- Indian Flag -->
+    <div class="splash-flag" id="splash-flag">
+      <div class="flag-band saffron"></div>
+      <div class="flag-band white">
+        <div class="ashoka-chakra">
+          <svg viewBox="0 0 100 100" width="40" height="40">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#0A1F5C" stroke-width="4"/>
+            <circle cx="50" cy="50" r="8" fill="#0A1F5C"/>
+            <g id="spokes" stroke="#0A1F5C" stroke-width="2.5">
+              <line x1="50" y1="4" x2="50" y2="50"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(15 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(30 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(45 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(60 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(75 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(90 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(105 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(120 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(135 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(150 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(165 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(180 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(195 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(210 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(225 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(240 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(255 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(270 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(285 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(300 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(315 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(330 50 50)"/>
+              <line x1="50" y1="4" x2="50" y2="50" transform="rotate(345 50 50)"/>
+            </g>
+          </svg>
         </div>
-        <h1 class="onboarding-title">VoteWise</h1>
-        <p class="onboarding-subtitle">India's Civic Election Guide</p>
       </div>
-      <div class="ashoka-strip">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="flag-band green"></div>
+    </div>
+
+    <!-- Loading text — each word acts as a progress segment -->
+    <div class="splash-text" id="splash-text">
+      <span class="splash-word" data-idx="0">Welcome</span>
+      <span class="splash-word" data-idx="1">to</span>
+      <span class="splash-word" data-idx="2">the</span>
+      <span class="splash-word" data-idx="3">Largest</span>
+      <span class="splash-word" data-idx="4">Democracy</span>
+      <span class="splash-word" data-idx="5">of</span>
+      <span class="splash-word" data-idx="6">the</span>
+      <span class="splash-word" data-idx="7">World</span>
+    </div>
+
+    <!-- Progress bar under text -->
+    <div class="splash-bar">
+      <div class="splash-bar-fill" id="splash-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ====== ONBOARDING — WHO ARE YOU? ====== -->
+  <div id="onboarding-overlay" class="onboarding-overlay">
+    <div class="onboarding-card">
       <div class="onboarding-question">
-        <h2>Welcome! Who are you?</h2>
+        <h2>Who are you?</h2>
         <p>I'll personalise my explanations just for you.</p>
       </div>
       <div class="persona-buttons">
@@ -49,25 +99,24 @@
     </div>
   </div>
 
-  <!-- MAIN APP -->
+  <!-- ====== MAIN APP ====== -->
   <div id="app" class="app hidden">
 
     <!-- HEADER -->
     <header class="app-header">
       <div class="header-left">
         <div class="header-logo">
-          <span class="logo-chakra">☸</span>
           <span class="logo-text">VoteWise</span>
         </div>
         <span class="header-tagline">India's Election Guide</span>
       </div>
       <div class="header-right">
-        <div class="persona-badge" id="persona-badge">
+        <span class="persona-badge" id="persona-badge">
           <span id="persona-icon-display">🗳️</span>
           <span id="persona-label-display">First-time Voter</span>
-        </div>
+        </span>
         <button class="share-btn" id="share-btn" onclick="shareApp()" title="Share VoteWise">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Share
         </button>
       </div>
@@ -76,91 +125,98 @@
     <!-- BODY -->
     <div class="app-body">
 
-      <!-- LEFT SIDEBAR — TIMELINE -->
+      <!-- LEFT SIDEBAR -->
       <aside class="timeline-sidebar" id="timeline-sidebar">
-        <div class="sidebar-header">
-          <h3>Election Timeline</h3>
-          <p>Tap any phase to explore</p>
-        </div>
-        <div class="timeline">
-          <div class="timeline-phase" id="phase-registration" data-phase="registration" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">📝</span>
-            </div>
-            <div class="phase-content">
-              <span class="phase-label">Registration</span>
-              <span class="phase-sub">Voter ID &amp; EPIC</span>
-            </div>
-            <div class="phase-connector bottom"></div>
-          </div>
 
-          <div class="timeline-phase" id="phase-nomination" data-phase="nomination" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">🏅</span>
+        <!-- Election Timeline Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Election Timeline</div>
+          <div class="timeline">
+            <div class="timeline-phase" id="phase-registration" data-phase="registration" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">📝</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Registration</span>
+                <span class="phase-sub">Voter ID &amp; EPIC</span>
+              </div>
             </div>
-            <div class="phase-content">
-              <span class="phase-label">Nomination</span>
-              <span class="phase-sub">Candidate Filing</span>
+            <div class="timeline-phase" id="phase-nomination" data-phase="nomination" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">🏅</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Nomination</span>
+                <span class="phase-sub">Candidate Filing</span>
+              </div>
             </div>
-            <div class="phase-connector bottom"></div>
-          </div>
-
-          <div class="timeline-phase" id="phase-campaigning" data-phase="campaigning" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">📣</span>
+            <div class="timeline-phase" id="phase-campaigning" data-phase="campaigning" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">📣</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Campaigning</span>
+                <span class="phase-sub">MCC &amp; Rules</span>
+              </div>
             </div>
-            <div class="phase-content">
-              <span class="phase-label">Campaigning</span>
-              <span class="phase-sub">MCC &amp; Rules</span>
+            <div class="timeline-phase" id="phase-voting" data-phase="voting" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">🗳️</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Voting Day</span>
+                <span class="phase-sub">EVM &amp; VVPAT</span>
+              </div>
             </div>
-            <div class="phase-connector bottom"></div>
-          </div>
-
-          <div class="timeline-phase" id="phase-voting" data-phase="voting" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">🗳️</span>
+            <div class="timeline-phase" id="phase-counting" data-phase="counting" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">🔢</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Counting</span>
+                <span class="phase-sub">Vote Tallying</span>
+              </div>
             </div>
-            <div class="phase-content">
-              <span class="phase-label">Voting Day</span>
-              <span class="phase-sub">EVM &amp; VVPAT</span>
-            </div>
-            <div class="phase-connector bottom"></div>
-          </div>
-
-          <div class="timeline-phase" id="phase-counting" data-phase="counting" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">🔢</span>
-            </div>
-            <div class="phase-content">
-              <span class="phase-label">Counting</span>
-              <span class="phase-sub">Vote Tallying</span>
-            </div>
-            <div class="phase-connector bottom"></div>
-          </div>
-
-          <div class="timeline-phase" id="phase-result" data-phase="result" onclick="jumpToPhase(this)">
-            <div class="phase-connector top"></div>
-            <div class="phase-dot">
-              <span class="phase-dot-icon">🏆</span>
-            </div>
-            <div class="phase-content">
-              <span class="phase-label">Result</span>
-              <span class="phase-sub">Declaration</span>
+            <div class="timeline-phase" id="phase-result" data-phase="result" onclick="jumpToPhase(this)">
+              <div class="phase-marker">
+                <div class="phase-line top"></div>
+                <div class="phase-dot">🏆</div>
+                <div class="phase-line bottom"></div>
+              </div>
+              <div class="phase-content">
+                <span class="phase-label">Result</span>
+                <span class="phase-sub">Declaration</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- DID YOU KNOW CARD -->
-        <div class="fact-card" id="fact-card">
-          <div class="fact-card-header">
-            <span class="fact-icon">💡</span>
-            <span class="fact-title">Did You Know?</span>
+        <!-- Live Election Data Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">
+            <span class="live-dot"></span>
+            Live Election Data
           </div>
+          <div class="live-data-cards" id="live-data-cards">
+            <div class="live-card loading-placeholder">
+              <div class="shimmer"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Did You Know Section -->
+        <div class="sidebar-section fact-section">
+          <div class="sidebar-section-title">Did You Know?</div>
           <p class="fact-text" id="fact-text">India has over 960 million registered voters — the largest electorate in the world!</p>
           <div class="fact-dots" id="fact-dots"></div>
         </div>
@@ -188,7 +244,7 @@
               onkeydown="handleKeyDown(event)"
             />
             <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send message">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
           </div>
           <p class="input-disclaimer">Powered by AI · For civic education purposes only</p>
