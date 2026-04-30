@@ -92,16 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
 function runSplashAnimation() {
   const container = document.getElementById('flag-intro');
   if (container) {
-    // Start sweep and chakra spin
+    // Start wave and chakra animations
     container.classList.add('animate');
     
-    // Zoom out heavily after the flag is formed
+    // Fade out elegantly after animations finish
     setTimeout(() => {
-      container.classList.add('zoom-out');
-    }, 1800);
+      container.classList.add('fade-out');
+    }, 2500);
 
-    // End the splash screen as the zoom completes
-    setTimeout(endSplash, 2800);
+    // End the splash screen as the fade completes
+    setTimeout(endSplash, 3300);
   } else {
     endSplash();
   }

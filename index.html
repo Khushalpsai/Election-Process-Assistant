@@ -14,19 +14,20 @@
 
   <!-- ====== SPLASH / LOADING SCREEN ====== -->
   <div id="splash-screen" class="splash-screen active">
-    <!-- Waving Indian Flag Video Background -->
-    <video class="splash-video-bg" id="splash-video" autoplay muted loop playsinline>
-      <source src="https://videos.pexels.com/video-files/13190482/13190482-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-    </video>
-    <div class="splash-video-overlay"></div>
-
-    <!-- Indian Flag Netflix-style Animation -->
-    <div class="flag-intro-container" id="flag-intro">
-      <div class="flag-stripe saffron"></div>
-      <div class="flag-stripe white">
-        <div class="chakra"></div>
+    <!-- Image-style Elegant Flag Intro -->
+    <div class="flag-intro-container light-mode" id="flag-intro">
+      <svg class="wavy-flag-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" preserveAspectRatio="xMaxYMid slice">
+        <path class="wave saffron-wave-1" d="M0,0 C300,50 600,250 1000,100 L1000,0 Z" fill="#FF9933" opacity="0.85"/>
+        <path class="wave saffron-wave-2" d="M200,0 C500,150 700,300 1000,150 L1000,0 Z" fill="#FF9933" opacity="0.4"/>
+        <path class="wave green-wave-1" d="M200,600 C500,400 700,600 1000,450 L1000,600 Z" fill="#138808" opacity="0.85"/>
+        <path class="wave green-wave-2" d="M400,600 C600,450 800,600 1000,500 L1000,600 Z" fill="#138808" opacity="0.4"/>
+      </svg>
+      <div class="image-chakra"></div>
+      <div class="image-quote">
+        <span class="quote-mark">"</span>
+        <p>We are Indians,<br>firstly and lastly.</p>
+        <cite>— B.R. Ambedkar</cite>
       </div>
-      <div class="flag-stripe green"></div>
     </div>
   </div>
 

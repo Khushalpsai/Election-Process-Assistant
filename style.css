@@ -82,113 +82,121 @@ html, body {
 }
 
 /* -- Netflix-style Flag Intro -- */
-.flag-intro-container {
+.flag-intro-container.light-mode {
   position: absolute;
   inset: 0;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  perspective: 1000px;
-  background: #000;
-}
-
-/* Fabric ripple overlay */
-.flag-intro-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0,0,0,0) 0%,
-    rgba(255,255,255,0.06) 25%,
-    rgba(0,0,0,0.2) 50%,
-    rgba(255,255,255,0.06) 75%,
-    rgba(0,0,0,0) 100%
-  );
-  background-size: 200% 100%;
+  background: #F8F9FA;
   opacity: 0;
-  pointer-events: none;
-  z-index: 10;
+  transition: opacity 0.5s ease;
 }
-.flag-intro-container.animate::after {
-  animation: fabric-wave 2.5s linear infinite;
+.flag-intro-container.light-mode.animate {
   opacity: 1;
 }
 
-.flag-stripe {
+/* Wavy Background */
+.wavy-flag-bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 20vh;
+  height: 100%;
+  z-index: 0;
+}
+.wave {
   transform-origin: left center;
   transform: scaleX(0);
   opacity: 0;
+}
+.flag-intro-container.animate .wave {
+  animation: wave-sweep 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+.flag-intro-container.animate .saffron-wave-1 { animation-delay: 0.1s; }
+.flag-intro-container.animate .saffron-wave-2 { animation-delay: 0.3s; }
+.flag-intro-container.animate .green-wave-1 { animation-delay: 0.2s; }
+.flag-intro-container.animate .green-wave-2 { animation-delay: 0.4s; }
+
+/* Quote on the left */
+.image-quote {
   position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-.flag-stripe.saffron {
-  background: linear-gradient(180deg, #FF9933 0%, #E68A2E 100%);
-  z-index: 3;
-}
-.flag-stripe.white {
-  background: linear-gradient(180deg, #FFFFFF 0%, #EAEAEA 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 2;
+  margin-left: 8vw;
+  max-width: 400px;
+  opacity: 0;
+  transform: translateY(20px);
 }
-.flag-stripe.green {
-  background: linear-gradient(180deg, #138808 0%, #0C5E05 100%);
-  z-index: 1;
+.flag-intro-container.animate .image-quote {
+  animation: fade-up 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: 1s;
+}
+.image-quote .quote-mark {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  font-size: 5rem;
+  font-family: 'Cinzel', serif;
+  color: var(--saffron-dim);
+  line-height: 1;
+}
+.image-quote p {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: #333;
+  font-style: italic;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+.image-quote cite {
+  font-size: 1rem;
+  color: var(--saffron);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.chakra {
-  height: 14vh;
-  width: 14vh;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" stroke="%23000080" stroke-width="4" fill="none"/><g stroke="%23000080" stroke-width="1.5"><line x1="50" y1="5" x2="50" y2="95"/><line x1="5" y1="50" x2="95" y2="50"/><line x1="18.18" y1="18.18" x2="81.82" y2="81.82"/><line x1="18.18" y1="81.82" x2="81.82" y2="18.18"/><line x1="26.3" y1="9.4" x2="73.7" y2="90.6"/><line x1="9.4" y1="26.3" x2="90.6" y2="73.7"/><line x1="90.6" y1="26.3" x2="9.4" y2="73.7"/><line x1="73.7" y1="9.4" x2="26.3" y2="90.6"/></g></svg>') no-repeat center center;
+/* Big Chakra on the right */
+.image-chakra {
+  position: relative;
+  z-index: 1;
+  width: 30vw;
+  height: 30vw;
+  max-width: 400px;
+  max-height: 400px;
+  margin-right: 5vw;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" stroke="%23000080" stroke-width="3" fill="none"/><circle cx="50" cy="50" r="35" stroke="%23000080" stroke-width="0.5" fill="none"/><circle cx="50" cy="50" r="10" fill="%23000080"/><g stroke="%23000080" stroke-width="1.5"><line x1="50" y1="5" x2="50" y2="95"/><line x1="5" y1="50" x2="95" y2="50"/><line x1="18.18" y1="18.18" x2="81.82" y2="81.82"/><line x1="18.18" y1="81.82" x2="81.82" y2="18.18"/><line x1="26.3" y1="9.4" x2="73.7" y2="90.6"/><line x1="9.4" y1="26.3" x2="90.6" y2="73.7"/><line x1="90.6" y1="26.3" x2="9.4" y2="73.7"/><line x1="73.7" y1="9.4" x2="26.3" y2="90.6"/><line x1="32.6" y1="3.4" x2="67.4" y2="96.6"/><line x1="3.4" y1="32.6" x2="96.6" y2="67.4"/><line x1="96.6" y1="32.6" x2="3.4" y2="67.4"/><line x1="67.4" y1="3.4" x2="32.6" y2="96.6"/></g></svg>') no-repeat center center;
   background-size: contain;
   opacity: 0;
-  transform: rotate(-180deg) scale(0);
+  transform: rotate(-180deg) scale(0.5);
+  filter: drop-shadow(0 10px 20px rgba(0,0,128,0.1));
+}
+.flag-intro-container.animate .image-chakra {
+  animation: big-chakra-spin 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.5s;
 }
 
-/* Animations */
-.flag-intro-container.animate .flag-stripe {
-  animation: stripe-sweep 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-}
-.flag-intro-container.animate .flag-stripe.saffron { animation-delay: 0s; }
-.flag-intro-container.animate .flag-stripe.white { animation-delay: 0.1s; }
-.flag-intro-container.animate .flag-stripe.green { animation-delay: 0.2s; }
-
-.flag-intro-container.animate .chakra {
-  animation: chakra-spin 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: 0.8s;
+/* Transitions */
+.flag-intro-container.fade-out {
+  opacity: 0 !important;
+  transition: opacity 0.8s ease;
 }
 
-.flag-intro-container.zoom-out {
-  animation: netflix-zoom 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+@keyframes wave-sweep {
+  0% { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
 }
 
-@keyframes stripe-sweep {
-  0% { transform: scaleX(0) scaleY(0.6); opacity: 0; filter: brightness(0.5); }
-  50% { opacity: 1; }
-  100% { transform: scaleX(1) scaleY(1); opacity: 1; filter: brightness(1); }
+@keyframes fade-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes chakra-spin {
-  0% { transform: rotate(-270deg) scale(0); opacity: 0; filter: drop-shadow(0 0 10px rgba(0,0,128,0.5)); }
-  100% { transform: rotate(0) scale(1); opacity: 1; filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
-}
-
-@keyframes fabric-wave {
-  0% { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-@keyframes netflix-zoom {
-  0% { transform: scale(1); opacity: 1; filter: brightness(1); }
-  30% { filter: brightness(1.5); }
-  100% { transform: scale(40); opacity: 0; filter: brightness(3); }
+@keyframes big-chakra-spin {
+  0% { transform: rotate(-270deg) scale(0.5); opacity: 0; filter: drop-shadow(0 0 0 rgba(0,0,128,0)); }
+  100% { transform: rotate(0) scale(1); opacity: 1; filter: drop-shadow(0 15px 30px rgba(0,0,128,0.15)); }
 }
 
 /* ============================================================
