@@ -90,20 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function runSplashAnimation() {
-  const fill = document.getElementById('splash-fill');
-  const totalSteps = 16;     // more steps = smoother reveal
-  let step = 0;
+  const container = document.getElementById('flag-intro');
+  if (container) {
+    // Start sweep and chakra spin
+    container.classList.add('animate');
+    
+    // Zoom out heavily after the flag is formed
+    setTimeout(() => {
+      container.classList.add('zoom-out');
+    }, 1800);
 
-  const interval = setInterval(() => {
-    step++;
-    const pct = 100 - (step / totalSteps) * 100;
-    fill.style.clipPath = `inset(0 ${pct}% 0 0)`;
-
-    if (step >= totalSteps) {
-      clearInterval(interval);
-      setTimeout(endSplash, 1000);   // longer pause after full reveal
-    }
-  }, 250);
+    // End the splash screen as the zoom completes
+    setTimeout(endSplash, 2800);
+  } else {
+    endSplash();
+  }
 }
 
 function endSplash() {
